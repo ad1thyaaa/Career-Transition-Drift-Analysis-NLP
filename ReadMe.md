@@ -113,6 +113,7 @@ Requirements include:
 * pandas
 * numpy
 * scikit-learn
+* scipy
 * lightgbm
 * sentence-transformers
 * matplotlib
