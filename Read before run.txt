@@ -1,0 +1,122 @@
+before running this project pls use Python 3.11.9 
+don’t use 3.14, PyTorch CUDA support gets weird there.
+
+first make a venv:
+
+```powershell
+py -3.11 -m venv .venv
+```
+
+activate it:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+if powershell blocks it:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+then install CUDA pytorch INSIDE the venv:
+
+```powershell
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+```
+
+after that:
+
+```powershell
+pip install -r requirements.txt
+```
+
+then put these inside the `data/` folder:
+
+```text
+train.parquet
+validation.parquet
+test.parquet
+```
+
+run the pipeline using:
+
+```powershell
+python run_pipeline.py
+```
+
+optional flags:
+
+force recompute everything:
+
+```powershell
+python run_pipeline.py --no-cache
+```
+
+skip plots:
+
+```powershell
+python run_pipeline.py --no-plots
+```
+
+all generated stuff automatically goes into:
+
+```text
+results/
+```
+
+like:
+
+```text
+results/figures/
+results/tables/
+results/metrics/
+results/checkpoints/
+results/logs/
+results/summaries/
+```
+
+if GPU is working properly you should see:
+
+```text
+Using device: cuda
+```
+
+if it says:
+
+```text
+CUDA unavailable — using CPU
+```
+
+then CUDA PyTorch probably wasn’t installed properly.
+
+IMPORTANT 
+
+don’t push these to github:
+
+```text
+.venv/
+cache/
+results/
+models/
+parquet datasets
+```
+
+only push:
+
+* source code
+* requirements.txt
+* README
+* scripts/configs
+
+also first run can take pretty long because:
+
+* SBERT embeddings get generated
+* caches are built
+* LightGBM trains
+
+future runs become much faster because the pipeline reuses:
+
+* embedding caches
+* checkpoints
+* saved models
