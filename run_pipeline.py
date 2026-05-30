@@ -86,7 +86,7 @@ def main() -> None:
     sys.argv = [sys.argv[0]] + base_argv + user_argv
 
     # Import and run the pipeline
-    from career_drift_pipeline_v4 import main as pipeline_main
+    from career_drift_pipeline_v7 import main as pipeline_main
     pipeline_main()
 
 
